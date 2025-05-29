@@ -1,0 +1,8 @@
+apiVersion: v2
+name: telebugs
+description: Chart for hosting telebugs inside kubernetes.
+type: application
+
+version: 1.0.0-latest
+
+appVersion: latest

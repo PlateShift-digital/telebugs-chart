@@ -1,0 +1,22 @@
+telebugs:
+  image:
+    repository: registry.telebugs.com/telebugs
+    version: latest
+    pullPolicy: Always
+  env:
+    secret_key_base: ""
+    active_record_encryption_primary_key: ""
+    active_record_encryption_deterministic_key: ""
+    active_record_encryption_key_derivation_salt: ""
+
+storage:
+  size: 16Gi
+
+ingress:
+  host: ""
+  tls_cert_resolver: ""
+
+registry:
+  host: "registry.telebugs.com"
+  user: ""
+  password: ""

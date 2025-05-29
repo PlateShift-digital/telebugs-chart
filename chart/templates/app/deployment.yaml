@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      service: {{.Release.Name}}
+  template:
+    metadata:
+      labels:
+        service: {{.Release.Name}}
+        env: {{.Values.telebugs.env|toJson|sha1sum}}
+    spec:
+      containers:
+        - name: satisfy
+          image: "{{.Values.telebugs.image.repository}}:{{.Values.telebugs.image.version}}"
+          imagePullPolicy: {{.Values.telebugs.image.pullPolicy}}
+          envFrom:
+            - secretRef:
+                name: {{.Release.Name}}-secrets
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /rails/storage
+              name: data
+      imagePullSecrets:
+        - name: {{.Release.Name}}-registry
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{.Release.Name}}-data
